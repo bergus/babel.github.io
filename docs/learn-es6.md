@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: Learn ES2015
-description: A detailed overview of ECMAScript 6 features.
+description: A detailed overview of ECMAScript 2015 features. Based on Luke Hoban's es6features repo.
 permalink: /docs/learn-es2015/
 redirect_from:
  - /docs/learn-es6/
@@ -10,10 +10,10 @@ redirect_from:
 ---
 
 <blockquote class="babel-callout babel-callout-info">
-  <h4>es6features</h4>
+  <h3>es6features</h3>
   <p>
     This document was originally taken from Luke Hoban's excellent
-    <a href="http://git.io/es6features">es6features</a> repo. Go give it a star
+    <a href="https://git.io/es6features">es6features</a> repo. Go give it a star
     on GitHub!
   </p>
 </blockquote>
@@ -28,19 +28,20 @@ redirect_from:
 
 ## Introduction
 
-> ECMAScript 6 is the newest version of the ECMAScript standard. This standard
+> ECMAScript 2015 is the newest version of the ECMAScript standard. This standard
 was ratified in June 2015.  ES2015 is a significant update to the language, and
 the first major update to the language since ES5 was standardized in 2009.
 Implementation of these features in major JavaScript engines is
-[underway now](http://kangax.github.io/es5-compat-table/es6/).
+[underway now](https://kangax.github.io/es5-compat-table/es6/).
 
 See the [ES2015 standard](http://www.ecma-international.org/ecma-262/6.0/index.html)
-for full specification of the ECMAScript 6 language.
+for full specification of the ECMAScript 2015 language.
 
-## ECMAScript 6 Features
+## ECMAScript 2015 Features
 
 <!-- To not break some existing links to here, just in case. -->
 <a id="arrows"></a>
+
 ### Arrows and Lexical This
 
 Arrows are a function shorthand using the `=>` syntax.  They are syntactically
@@ -125,7 +126,7 @@ var obj = {
 
 <blockquote class="babel-callout babel-callout-warning">
   <p>
-    The <code>__proto__</code> property requires native support, and was deprecated in previous ECMAScript versions. Most engines now support the property, but <a href="http://kangax.github.io/compat-table/es6/#__proto___in_object_literals">some do not</a>. Also, note that only <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-additional-ecmascript-features-for-web-browsers">web browsers</a> are required to implement it, as it's in <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.prototype.__proto__">Annex B</a>. It is available in Node.
+    The <code>__proto__</code> property requires native support, and was deprecated in previous ECMAScript versions. Most engines now support the property, but <a href="https://kangax.github.io/compat-table/es6/#__proto___in_object_literals">some do not</a>. Also, note that only <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-additional-ecmascript-features-for-web-browsers">web browsers</a> are required to implement it, as it's in <a href="http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.prototype.__proto__">Annex B</a>. It is available in Node.
   </p>
 </blockquote>
 
@@ -168,7 +169,9 @@ lookup `foo["bar"]`, producing `undefined` values when not found.
 
 ```js
 // list matching
-var [a, , b] = [1,2,3];
+var [a, ,b] = [1,2,3];
+a === 1;
+b === 3;
 
 // object matching
 var { op: a, lhs: { op: b }, rhs: c }
@@ -191,6 +194,12 @@ a === undefined;
 // Fail-soft destructuring with defaults
 var [a = 1] = [];
 a === 1;
+
+// Destructuring + defaults arguments
+function r({x, y, w = 10, h = 10}) {
+  return x + y + w + h;
+}
+r({x:1, y:2}) === 23
 ```
 
 ### Default + Rest + Spread
@@ -346,15 +355,7 @@ interface Generator extends Iterator {
 
 ### Comprehensions
 
-See [this page](/docs/advanced/transformers/other/comprehensions) for details.
-It is now an [ES7 Strawman proposal](/docs/usage/experimental).
-
-<blockquote class="babel-callout babel-callout-warning">
-  <h4>Disabled by default</h4>
-  <p>
-    This is only available if you enable experimental support. See <a href="/docs/usage/experimental">experimental usage</a> for more information.
-  </p>
-</blockquote>
+Removed in Babel 6.0
 
 ### Unicode
 
@@ -399,12 +400,12 @@ export var pi = 3.141593;
 ```js
 // app.js
 import * as math from "lib/math";
-alert("2π = " + math.sum(math.pi, math.pi));
+console.log("2π = " + math.sum(math.pi, math.pi));
 ```
 ```js
 // otherApp.js
 import {sum, pi} from "lib/math";
-alert("2π = " + sum(pi, pi));
+console.log("2π = " + sum(pi, pi));
 ```
 
 Some additional features include `export default` and `export *`:
@@ -420,7 +421,7 @@ export default function(x) {
 ```js
 // app.js
 import exp, {pi, e} from "lib/mathplusplus";
-alert("2π = " + exp(pi, e));
+console.log("e^π = " + exp(pi));
 ```
 
 <blockquote class="babel-callout babel-callout-info">
@@ -596,7 +597,7 @@ var handler =
 <blockquote class="babel-callout babel-callout-danger">
   <h4>Unsupported feature</h4>
   <p>
-    Due to the limitations of ES5, Proxies cannot be transpiled or polyfilled. See support in <a href="http://kangax.github.io/compat-table/es6/#Proxy">various JavaScript engines</a>.
+    Due to the limitations of ES5, Proxies cannot be transpiled or polyfilled. See support in <a href="https://kangax.github.io/compat-table/es6/#Proxy">various JavaScript engines</a>.
   </p>
 </blockquote>
 
@@ -792,9 +793,10 @@ factorial(100000)
 ```
 
 <blockquote class="babel-callout babel-callout-warning">
-  <h4>Partial support</h4>
+  <h4>Temporarily Removed in Babel 6</h4>
   <p>
-    Only explicit self referencing tail recursion is supported due to the
+    Only explicit self referencing tail recursion was supported due to the
     complexity and performance impact of supporting tail calls globally.
+    Removed due to other bugs and will be re-implemented.
   </p>
 </blockquote>
